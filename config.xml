@@ -1,0 +1,28 @@
+<yandex>
+    <!-- Default settings for all users -->
+    <profiles>
+        <default>
+            <max_memory_usage>10000000000</max_memory_usage>
+            <max_threads>8</max_threads>
+        </default>
+    </profiles>
+
+    <users>
+        <default>
+            <password></password> <!-- No password for the default user -->
+            <quota>default</quota>
+            <networks>
+                <ip>::/0</ip> <!-- Allow access from all IPs -->
+            </networks>
+        </default>
+    </users>
+
+    <!-- Optionally, you can specify SQL queries for initialization -->
+    <init>
+        <queries>
+            <query>
+                CREATE DATABASE IF NOT EXISTS uptrace;
+            </query>
+        </queries>
+    </init>
+</yandex>
