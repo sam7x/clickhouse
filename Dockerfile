@@ -10,8 +10,8 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Add ClickHouse repository
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4 && \
-    echo "deb http://repo.clickhouse.com/deb/stable/ main/" | tee /etc/apt/sources.list.d/clickhouse.list
+RUN curl https://repo.clickhouse.com/CLICKHOUSE-KEY.GPG | tee /etc/apt/trusted.gpg.d/clickhouse.asc && \
+    echo "deb https://repo.clickhouse.com/deb/stable/ main/" > /etc/apt/sources.list.d/clickhouse.list
 
 # Install ClickHouse
 RUN apt-get update && \
