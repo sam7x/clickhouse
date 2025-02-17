@@ -1,30 +1,32 @@
-# Use the official Ubuntu base image
-FROM ubuntu:22.04
+# Use an official CentOS base image
+FROM centos:8
+
+# Set the maintainer label
+LABEL maintainer="your-email@example.com"
 
 # Install dependencies
-RUN apt-get update && \
-    apt-get install -y \
+RUN yum update -y && \
+    yum install -y \
     curl \
     gnupg2 \
-    lsb-release \
-    && rm -rf /var/lib/apt/lists/*
+    ca-certificates \
+    && rm -rf /var/cache/yum/*
 
-# Add ClickHouse repository
-RUN curl https://repo.clickhouse.com/CLICKHOUSE-KEY.GPG | tee /etc/apt/trusted.gpg.d/clickhouse.asc && \
-    echo "deb https://packages.clickhouse.com/deb stable main" | sudo tee /etc/apt/sources.list.d/clickhouse.list
+# Add the ClickHouse RPM repository
+RUN curl -fsSL https://packages.clickhouse.com/rpm/clickhouse.repo | tee /etc/yum.repos.d/clickhouse.repo
 
-# Install ClickHouse
-RUN apt-get update && \
-    apt-get install -y clickhouse-server clickhouse-client && \
-    rm -rf /var/lib/apt/lists/*
+# Install ClickHouse server and client
+RUN yum install -y clickhouse-server clickhouse-client
 
 # Expose ClickHouse ports
 EXPOSE 8123 9000 9009
 
-# Copy ClickHouse configuration files
+# Set up ClickHouse configuration (optional)
 COPY config.xml /etc/clickhouse-server/config.xml
 COPY users.xml /etc/clickhouse-server/users.xml
+
+# Copy SQL script to initialize database
 COPY init-uptrace.sql /docker-entrypoint-initdb.d/
 
-# Start ClickHouse
+# Start ClickHouse server
 CMD ["clickhouse-server"]
