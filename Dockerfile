@@ -13,6 +13,9 @@ RUN apt-get update && \
 # Download and install the ClickHouse standalone binary
 RUN curl https://clickhouse.com/ | sh
 
+# Ensure /clickhouse does not exist and create the working directory
+RUN rm -rf /clickhouse && mkdir /clickhouse
+
 # Set up a working directory
 WORKDIR /clickhouse
 
