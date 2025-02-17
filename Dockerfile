@@ -11,7 +11,7 @@ RUN apt-get update && \
 
 # Add ClickHouse repository
 RUN curl https://repo.clickhouse.com/CLICKHOUSE-KEY.GPG | tee /etc/apt/trusted.gpg.d/clickhouse.asc && \
-    echo "deb https://repo.clickhouse.com/deb/stable/ main/" > /etc/apt/sources.list.d/clickhouse.list
+    echo "deb https://packages.clickhouse.com/deb/dists/stable/Release main/" > /etc/apt/sources.list.d/clickhouse.list
 
 # Install ClickHouse
 RUN apt-get update && \
