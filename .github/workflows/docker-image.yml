@@ -59,7 +59,7 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t ghcr.io/sam7x/clickhouse:main \
+            -t ghcr.io/sam7x/clickhouse:latest \
             --push \
             .
 
