@@ -1,11 +1,7 @@
-# Use the official CentOS base image
-FROM centos:8
+# Use CentOS Stream 8 as the base image
+FROM quay.io/centos/centos:stream8
 
-# Set DNS servers (Google DNS in this case)
-RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
-    echo "nameserver 8.8.4.4" >> /etc/resolv.conf
-
-# Continue with the rest of your Dockerfile
+# Install dependencies
 RUN yum update -y && \
     yum install -y \
     curl \
