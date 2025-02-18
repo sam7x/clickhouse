@@ -65,6 +65,9 @@ RUN apt-get install -y \
     libsqlite3-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Install ccache
+RUN apt-get update && apt-get install -y ccache && rm -rf /var/lib/apt/lists/*
+
 # Install AARCH64 cross-compilation toolchain
 RUN apt-get update && \
     apt-get install -y \
