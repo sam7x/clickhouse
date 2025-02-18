@@ -66,6 +66,8 @@ RUN apt-get install -y \
     ccache \
     gcc-aarch64-linux-gnu \
     g++-aarch64-linux-gnu \
+    libssl-dev \
+    libcrypto++-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install a newer version of CMake (3.25 or higher)
@@ -88,7 +90,7 @@ RUN mkdir build && \
         -DCMAKE_TOOLCHAIN_FILE=cmake/linux/toolchain-aarch64.cmake \
         -DCMAKE_BUILD_TYPE=Release \
         -DENABLE_TESTS=0 && \
-    make -j$(nproc)
+    make -j2  # Reduced parallelism
 
 # Expose ClickHouse ports
 EXPOSE 8123 9000 9009
