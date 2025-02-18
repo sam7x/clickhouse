@@ -24,6 +24,8 @@ RUN apt-get install -y \
     libicu-dev \
     libssl-dev \
     libboost-dev \
+    binutils-aarch64-linux-gnu \  # Add AArch64 binutils
+    gcc-aarch64-linux-gnu \       # Add AArch64 GCC
     && rm -rf /var/lib/apt/lists/*
 
 # Install a newer version of CMake (3.25 or higher)
