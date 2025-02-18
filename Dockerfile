@@ -9,6 +9,7 @@ RUN apt-get update && \
     apt-get install -y \
     wget \
     gnupg \
+    software-properties-common \
     && wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | gpg --dearmor -o /usr/share/keyrings/llvm-archive-keyring.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/llvm-archive-keyring.gpg] http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main" | tee /etc/apt/sources.list.d/llvm.list && \
     apt-get update
@@ -16,7 +17,6 @@ RUN apt-get update && \
 # Install dependencies for building ClickHouse
 RUN apt-get install -y \
     git \
-    cmake \
     ninja-build \
     gcc \
     g++ \
@@ -67,6 +67,9 @@ RUN apt-get install -y \
     gcc-aarch64-linux-gnu \
     g++-aarch64-linux-gnu \
     && rm -rf /var/lib/apt/lists/*
+
+# Install a newer version of CMake (3.25 or higher)
+RUN wget -qO- https://github.com/Kitware/CMake/releases/download/v3.27.7/cmake-3.27.7-linux-x86_64.tar.gz | tar -xz --strip-components=1 -C /usr/local
 
 # Clone the ClickHouse repository and initialize submodules
 RUN git clone --recursive https://github.com/ClickHouse/ClickHouse.git /clickhouse
