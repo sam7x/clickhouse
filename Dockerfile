@@ -63,14 +63,7 @@ RUN apt-get install -y \
     libpq-dev \
     libmysqlclient-dev \
     libsqlite3-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install ccache
-RUN apt-get update && apt-get install -y ccache && rm -rf /var/lib/apt/lists/*
-
-# Install AARCH64 cross-compilation toolchain
-RUN apt-get update && \
-    apt-get install -y \
+    ccache \
     gcc-aarch64-linux-gnu \
     g++-aarch64-linux-gnu \
     && rm -rf /var/lib/apt/lists/*
