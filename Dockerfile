@@ -75,9 +75,12 @@ RUN apt-get update && \
     g++-aarch64-linux-gnu \
     && rm -rf /var/lib/apt/lists/*
 
-# Clone the ClickHouse repository
-RUN git clone https://github.com/ClickHouse/ClickHouse.git /clickhouse
+# Clone the ClickHouse repository and initialize submodules
+RUN git clone --recursive https://github.com/ClickHouse/ClickHouse.git /clickhouse
 WORKDIR /clickhouse
+
+# Ensure submodules are fully updated
+RUN git submodule update --init --recursive
 
 # Copy the toolchain file
 COPY toolchain-aarch64.cmake cmake/linux/toolchain-aarch64.cmake
