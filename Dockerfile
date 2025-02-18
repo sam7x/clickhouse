@@ -17,6 +17,7 @@ RUN apt-get update && \
 # Install dependencies for building ClickHouse
 RUN apt-get install -y \
     git \
+    cmake \
     ninja-build \
     clang-18 \
     lld-18 \
