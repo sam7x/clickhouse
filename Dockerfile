@@ -18,60 +18,13 @@ RUN apt-get update && \
 RUN apt-get install -y \
     git \
     ninja-build \
-    gcc \
-    g++ \
     clang-18 \
     lld-18 \
     llvm-18 \
     libicu-dev \
-    libreadline-dev \
     libssl-dev \
-    libtool \
-    libltdl-dev \
-    libcurl4-openssl-dev \
-    zlib1g-dev \
-    libbz2-dev \
-    liblz4-dev \
-    libzstd-dev \
-    libdouble-conversion-dev \
-    libboost-program-options-dev \
-    libboost-system-dev \
-    libboost-filesystem-dev \
-    libboost-regex-dev \
-    libboost-thread-dev \
-    libboost-context-dev \
-    libboost-iostreams-dev \
-    libboost-locale-dev \
-    libboost-date-time-dev \
-    libboost-atomic-dev \
-    libboost-chrono-dev \
-    libboost-log-dev \
-    libpoco-dev \
-    libcapnp-dev \
-    libprotobuf-dev \
-    protobuf-compiler \
-    libcctz-dev \
-    libgtest-dev \
-    libgmock-dev \
-    libhyperscan-dev \
-    libre2-dev \
-    libzookeeper-mt-dev \
-    librdkafka-dev \
-    libavro-dev \
-    libsnappy-dev \
-    liblzma-dev \
-    libpq-dev \
-    libmysqlclient-dev \
-    libsqlite3-dev \
-    ccache \
-    gcc-aarch64-linux-gnu \
-    g++-aarch64-linux-gnu \
-    libssl-dev \
-    libcrypto++-dev \
+    libboost-dev \
     && rm -rf /var/lib/apt/lists/*
-
-# Install a newer version of CMake (3.25 or higher)
-RUN wget -qO- https://github.com/Kitware/CMake/releases/download/v3.27.7/cmake-3.27.7-linux-x86_64.tar.gz | tar -xz --strip-components=1 -C /usr/local
 
 # Clone the ClickHouse repository and initialize submodules
 RUN git clone --recursive https://github.com/ClickHouse/ClickHouse.git /clickhouse
@@ -90,7 +43,7 @@ RUN mkdir build && \
         -DCMAKE_TOOLCHAIN_FILE=cmake/linux/toolchain-aarch64.cmake \
         -DCMAKE_BUILD_TYPE=Release \
         -DENABLE_TESTS=0 && \
-    make -j2  # Reduced parallelism
+    make -j1  # Further reduced parallelism
 
 # Expose ClickHouse ports
 EXPOSE 8123 9000 9009
