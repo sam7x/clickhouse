@@ -4,17 +4,25 @@ FROM ubuntu:22.04
 # Set environment variables to avoid interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install dependencies for building ClickHouse
+# Add the LLVM repository for Clang 18
 RUN apt-get update && \
     apt-get install -y \
+    wget \
+    gnupg \
+    && wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | gpg --dearmor -o /usr/share/keyrings/llvm-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/llvm-archive-keyring.gpg] http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main" | tee /etc/apt/sources.list.d/llvm.list && \
+    apt-get update
+
+# Install dependencies for building ClickHouse
+RUN apt-get install -y \
     git \
     cmake \
     ninja-build \
     gcc \
     g++ \
-    clang \
-    lld \
-    llvm \
+    clang-18 \
+    lld-18 \
+    llvm-18 \
     libicu-dev \
     libreadline-dev \
     libssl-dev \
