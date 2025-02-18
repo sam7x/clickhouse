@@ -7,8 +7,8 @@ set(CMAKE_C_COMPILER clang-18)
 set(CMAKE_CXX_COMPILER clang++-18)
 
 # Specify the target triple for Clang
-set(CMAKE_C_COMPILER aarch64-linux-gnu-gcc)
-set(CMAKE_CXX_COMPILER aarch64-linux-gnu-g++)
+set(CMAKE_C_COMPILER_TARGET aarch64-linux-gnu)
+set(CMAKE_CXX_COMPILER_TARGET aarch64-linux-gnu)
 
 # Specify the root file system for the target (if needed)
 # set(CMAKE_FIND_ROOT_PATH /path/to/aarch64/sysroot)
