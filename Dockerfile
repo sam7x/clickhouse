@@ -54,7 +54,6 @@ RUN apt-get update && \
     liblzma-dev \
     libpq-dev \
     libmysqlclient-dev \
-    libodbc-dev \
     libsqlite3-dev \
     && rm -rf /var/lib/apt/lists/*
 
