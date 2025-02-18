@@ -17,7 +17,6 @@ RUN apt-get update && \
 # Install dependencies for building ClickHouse
 RUN apt-get install -y \
     git \
-    cmake \
     ninja-build \
     clang-18 \
     lld-18 \
@@ -26,6 +25,9 @@ RUN apt-get install -y \
     libssl-dev \
     libboost-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# Install a newer version of CMake (3.25 or higher)
+RUN wget -qO- https://github.com/Kitware/CMake/releases/download/v3.27.7/cmake-3.27.7-linux-x86_64.tar.gz | tar -xz --strip-components=1 -C /usr/local
 
 # Clone the ClickHouse repository and initialize submodules
 RUN git clone --recursive https://github.com/ClickHouse/ClickHouse.git /clickhouse
