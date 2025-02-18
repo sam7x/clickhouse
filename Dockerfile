@@ -76,6 +76,9 @@ RUN apt-get update && \
 RUN git clone https://github.com/ClickHouse/ClickHouse.git /clickhouse
 WORKDIR /clickhouse
 
+# Copy the toolchain file
+COPY toolchain-aarch64.cmake cmake/linux/toolchain-aarch64.cmake
+
 # Build ClickHouse for AARCH64
 RUN mkdir build && \
     cd build && \
