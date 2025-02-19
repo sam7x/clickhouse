@@ -1,5 +1,5 @@
-# Use the official Ubuntu base image
-FROM ubuntu:22.04
+# Stage 1: Build ClickHouse
+FROM ubuntu:22.04 AS builder
 
 # Set environment variables to avoid interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -52,18 +52,35 @@ RUN mkdir build && \
         -DENABLE_TESTS=0 && \
     make -j1  # Further reduced parallelism
 
-# Expose ClickHouse ports
-EXPOSE 8123 9000 9009
+
+# Stage 2: Runtime image
+FROM ubuntu:22.04
+
+# Install runtime dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    libicu70 \
+    libssl3 \
+    libboost-system1.74.0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the ClickHouse binaries from the builder stage
+COPY --from=builder /clickhouse/build/programs/clickhouse /usr/local/bin/clickhouse
+COPY --from=builder /clickhouse/build/programs/clickhouse-server /usr/local/bin/clickhouse-server
+COPY --from=builder /clickhouse/build/programs/clickhouse-client /usr/local/bin/clickhouse-client
 
 # Copy custom configuration files (optional)
-COPY config.xml /clickhouse/build/programs/server/config.xml
-COPY users.xml /clickhouse/build/programs/server/users.xml
+COPY config.xml /etc/clickhouse-server/config.xml
+COPY users.xml /etc/clickhouse-server/users.xml
 
 # Copy SQL script to initialize database (optional)
 COPY init-uptrace.sql /docker-entrypoint-initdb.d/
 
-# Set the working directory to the ClickHouse build directory
-WORKDIR /clickhouse/build/programs
+# Expose ClickHouse ports
+EXPOSE 8123 9000 9009
+
+# Set the working directory
+WORKDIR /var/lib/clickhouse
 
 # Start ClickHouse server
-CMD ["./clickhouse-server"]
+CMD ["clickhouse-server"]
