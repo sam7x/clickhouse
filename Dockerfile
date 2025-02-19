@@ -26,6 +26,7 @@ RUN apt-get install -y \
     libboost-dev \
     binutils-aarch64-linux-gnu \
     libstdc++-12-dev-arm64-cross \
+    ccache \
     gcc-aarch64-linux-gnu && \
     rm -rf /var/lib/apt/lists/*
 
