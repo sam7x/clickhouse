@@ -25,6 +25,7 @@ RUN apt-get install -y \
     libssl-dev \
     libboost-dev \
     binutils-aarch64-linux-gnu \
+    libstdc++-12-dev-arm64-cross \
     gcc-aarch64-linux-gnu && \
     rm -rf /var/lib/apt/lists/*
 
